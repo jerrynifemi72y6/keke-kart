@@ -1,0 +1,160 @@
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0d1b2a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  user-select: none;
+  touch-action: none;
+}
+
+#app, #app canvas { position: fixed; inset: 0; display: block; }
+
+/* ---------- HUD ---------- */
+#hud {
+  position: fixed;
+  top: env(safe-area-inset-top, 12px);
+  left: 0; right: 0;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+}
+.hudLeft, .hudRight { display: flex; gap: 10px; align-items: flex-start; }
+.hudItem {
+  background: rgba(13, 27, 42, .55);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 10px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 62px;
+  backdrop-filter: blur(6px);
+  font-size: 20px;
+  line-height: 1.05;
+}
+.hudItem .lbl { font-size: 9px; letter-spacing: 1.5px; opacity: .65; font-weight: 700; }
+.hudItem.speed { font-size: 24px; color: #ffd166; }
+
+/* ---------- item slot ---------- */
+.slot {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 12px) + 74px);
+  left: 16px;
+  width: 54px; height: 54px;
+  border-radius: 12px;
+  border: 2px dashed rgba(255,255,255,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; letter-spacing: .5px;
+  color: rgba(255,255,255,.45);
+  background: rgba(13,27,42,.4);
+  pointer-events: none;
+}
+.slot.filled {
+  border: 2px solid #ffd166;
+  background: rgba(255, 209, 102, .22);
+  color: #ffd166;
+  font-size: 10px;
+}
+
+/* ---------- countdown ---------- */
+#countdown {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 110px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 6px 30px rgba(0,0,0,.55);
+  pointer-events: none;
+}
+
+/* ---------- controls ---------- */
+#controls {
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 44%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 18px calc(env(safe-area-inset-bottom, 14px) + 8px);
+  pointer-events: none;
+}
+#steer {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+#btnRow { position: relative; display: flex; gap: 12px; pointer-events: auto; }
+.ctrlBtn {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.35);
+  background: rgba(13,27,42,.55);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 1px;
+  backdrop-filter: blur(8px);
+  transition: transform .08s, background .08s;
+}
+.ctrlBtn:active { transform: scale(.93); background: rgba(255,209,102,.35); }
+
+/* ---------- overlay ---------- */
+#overlay {
+  position: fixed; inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(13,59,102,.92), rgba(6,15,26,.97));
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  z-index: 20;
+}
+#overlay.hidden, .hidden { display: none !important; }
+.panel { text-align: center; max-width: 380px; }
+.panel h1 {
+  font-size: 46px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #ffd166;
+  text-shadow: 0 4px 24px rgba(255,209,102,.35);
+  margin-bottom: 10px;
+}
+.tag { color: #cfe0f0; font-size: 15px; margin-bottom: 22px; }
+.how { color: #8fa8c0; font-size: 13px; line-height: 1.75; margin-bottom: 30px; }
+.how b { color: #ffd166; }
+#startBtn, #restartBtn {
+  padding: 16px 42px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  border: none;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #ffd166, #f4a261);
+  color: #0d1b2a;
+  box-shadow: 0 8px 30px rgba(255,209,102,.3);
+}
+#startBtn:active, #restartBtn:active { transform: scale(.97); }
+
+/* ---------- results ---------- */
+#results {
+  position: fixed; inset: 0;
+  background: rgba(6,15,26,.94);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px;
+  color: #fff;
+  z-index: 25;
+  text-align: center;
+  padding: 24px;
+}
+#results h2 { font-size: 15px; letter-spacing: 3px; color: #8fa8c0; font-weight: 700; text-transform: uppercase; }
+#results .big { font-size: 88px; font-weight: 900; color: #ffd166; line-height: 1; }
+#results p { color: #cfe0f0; font-size: 14px; }

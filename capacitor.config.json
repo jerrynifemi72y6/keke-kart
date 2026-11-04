@@ -1,0 +1,10 @@
+{
+  "appId": "com.jerry.kekekart",
+  "appName": "Keke Kart",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "android": {
+    "allowMixedContent": true,
+    "backgroundColor": "#0d1b2a"
+  }
+}
