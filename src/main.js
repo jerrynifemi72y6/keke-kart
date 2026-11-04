@@ -251,12 +251,16 @@ function updateItemHud() {
 
 // ---------- progress helpers ----------
 function nearestIndex(pos, hint) {
+  // Search only a small forward-biased window so a nearby stretch of track
+  // (the return leg runs close to the start straight) can't steal the lock.
   let best = hint, bestD = Infinity;
-  for (let o = -25; o <= 25; o++) {
+  for (let o = -10; o <= 16; o++) {
     const i = (hint + o + N) % N;
     const d = samples[i].distanceToSquared(pos);
     if (d < bestD) { bestD = d; best = i; }
   }
+  // Reject a lock that jumped to a different part of the circuit
+  if (Math.sqrt(bestD) > 12) return { idx: hint, dist: 0 };
   return { idx: best, dist: Math.sqrt(bestD) };
 }
 
@@ -279,11 +283,11 @@ function updatePlayer(dt) {
   const offroad = dist > halfWidth * 0.95;
 
   // lap detection on wrap
-  if (prevIdx > N * 0.75 && idx < N * 0.25) {
+  if (prevIdx > N * 0.85 && idx < N * 0.15) {
     player.lap++;
     if (player.lap >= totalLaps) { player.finished = true; endRace(); }
   }
-  if (prevIdx < N * 0.25 && idx > N * 0.75) player.lap = Math.max(0, player.lap - 1);
+  if (prevIdx < N * 0.15 && idx > N * 0.85) player.lap = Math.max(0, player.lap - 1);
   player.progress = player.lap * N + idx;
 
   // speed
@@ -357,7 +361,7 @@ function updateRival(r, dt) {
   const { idx } = nearestIndex(r.pos, r.idx);
   const prev = r.idx;
   r.idx = idx;
-  if (prev > N * 0.75 && idx < N * 0.25) r.lap++;
+  if (prev > N * 0.85 && idx < N * 0.15) r.lap++;
   r.progress = r.lap * N + idx;
 
   const look = 8 + Math.floor(r.speed * 0.55);
