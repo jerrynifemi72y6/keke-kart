@@ -169,8 +169,7 @@ function handleSteer(e) {
 driftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); tryDrift(); }, { passive: false });
 driftBtn.addEventListener('touchend', (e) => { e.preventDefault(); endDrift(); }, { passive: false });
 itemBtn.addEventListener('click', useItem);
-document.getElementById('startBtn').addEventListener('click', startRace);
-document.getElementById('restartBtn').addEventListener('click', () => location.reload());
+document.getElementById('startBtn')?.addEventListener('click', startRace);
 
 function tryDrift() { if (state === STATE.RACE) player.drift = true; }
 function endDrift() { player.drift = false; }
@@ -441,8 +440,7 @@ function endRace() {
     <p class="big">P${player.place}</p>
     <p>Time: ${raceTime.toFixed(1)}s</p>
     <button id="restartBtn">Race again</button>`;
-  document.getElementById('restartBtn').addEventListener('click', () => location.reload());
-}
+  }
 
 // ---------- loop ----------
 const clock = new THREE.Clock();
