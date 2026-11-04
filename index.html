@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#0d3b66" />
 <title>Keke Kart</title>
+<script>
+window.addEventListener('error', function (e) {
+  document.title = 'JSERR: ' + (e.message || '') + ' @ ' + (e.filename || '').split('/').pop() + ':' + (e.lineno || '');
+});
+window.addEventListener('unhandledrejection', function (e) {
+  document.title = 'REJ: ' + ((e.reason && e.reason.message) || e.reason);
+});
+</script>
 <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
