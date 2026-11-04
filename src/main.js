@@ -259,8 +259,16 @@ function nearestIndex(pos, hint) {
     const d = samples[i].distanceToSquared(pos);
     if (d < bestD) { bestD = d; best = i; }
   }
-  // Reject a lock that jumped to a different part of the circuit
-  if (Math.sqrt(bestD) > 12) return { idx: hint, dist: 0 };
+  // If the local window lost the road, recover with a full scan (e.g. after
+  // being knocked far off the circuit) instead of freezing progress.
+  if (Math.sqrt(bestD) > 12) {
+    let gBest = best, gD = bestD;
+    for (let i = 0; i < N; i++) {
+      const d = samples[i].distanceToSquared(pos);
+      if (d < gD) { gD = d; gBest = i; }
+    }
+    return { idx: gBest, dist: Math.sqrt(gD) };
+  }
   return { idx: best, dist: Math.sqrt(bestD) };
 }
 
